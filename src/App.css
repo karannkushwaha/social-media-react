@@ -26,3 +26,12 @@
   margin-left: 20%;
   margin-top: 50px;
 }
+
+.msg {
+  margin: 100px 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
