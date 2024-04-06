@@ -20,7 +20,7 @@ const PostCard = ({ post }) => {
             </span>
             <Card.Text>{post.body}</Card.Text>
             {post.tags.map((item) => (
-              <Badge bg="primary" key={item.id} className="hastag">
+              <Badge bg="primary" key={item} className="hastag">
                 {item}
               </Badge>
             ))}

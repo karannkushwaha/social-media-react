@@ -1,86 +1,81 @@
-import { useContext, useRef } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { PostList } from "../store/post-list-store";
+import { Form as BootstrapForm } from "react-bootstrap";
+import { Form as RouterForm, redirect } from "react-router-dom";
 const CreatePost = () => {
-  const { addPost } = useContext(PostList);
-  const userIDElement = useRef();
-  const postTitleElement = useRef();
-  const postDescriptionElement = useRef();
-  const postReactElement = useRef();
-  const postTagsElement = useRef();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const UserID = userIDElement.current.value;
-    const postTitle = postTitleElement.current.value;
-    const postDescription = postDescriptionElement.current.value;
-    const postReact = postReactElement.current.value;
-    const postTags = postTagsElement.current.value.split(" ");
-
-    userIDElement.current.value = "";
-    postTitleElement.current.value = "";
-    postDescriptionElement.current.value = "";
-    postReactElement.current.value = "";
-    postTagsElement.current.value = "";
-    addPost(UserID, postDescription, postReact, postTags, postTitle);
-  };
   return (
     <>
-      <Form className="create-post" onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="userIDElement">
-          <Form.Label>Post UserID</Form.Label>
-          <Form.Control
+      <RouterForm className="create-post" method="POST">
+        <BootstrapForm.Group className="mb-3" controlId="userIDElement">
+          <BootstrapForm.Label>Post UserID</BootstrapForm.Label>
+          <BootstrapForm.Control
             type="text"
             placeholder="Your UserID"
             required
-            ref={userIDElement}
+            name="userId"
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="postTitleElement">
-          <Form.Label>Post Title</Form.Label>
-          <Form.Control
+        </BootstrapForm.Group>
+        <BootstrapForm.Group className="mb-3" controlId="postTitleElement">
+          <BootstrapForm.Label>Post Title</BootstrapForm.Label>
+          <BootstrapForm.Control
             type="text"
             placeholder="Enter post title"
             required
-            ref={postTitleElement}
+            name="title"
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="postDescriptionElement">
-          <Form.Label>Post Description</Form.Label>
-          <Form.Control
+        </BootstrapForm.Group>
+        <BootstrapForm.Group
+          className="mb-3"
+          controlId="postDescriptionElement"
+        >
+          <BootstrapForm.Label>Post Description</BootstrapForm.Label>
+          <BootstrapForm.Control
             as="textarea"
             rows={5}
             placeholder="Enter post descripation...."
-            ref={postDescriptionElement}
+            name="body"
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="postReactElement">
-          <Form.Label>Post Reaction</Form.Label>
-          <Form.Control
+        </BootstrapForm.Group>
+        <BootstrapForm.Group className="mb-3" controlId="postReactElement">
+          <BootstrapForm.Label>Post Reaction</BootstrapForm.Label>
+          <BootstrapForm.Control
             type="number"
             placeholder="How many people reacted to this post..."
             required
-            ref={postReactElement}
+            name="reactions"
           />
-        </Form.Group>
+        </BootstrapForm.Group>
 
-        <Form.Group className="mb-3" controlId="postTagsElement">
-          <Form.Label>Enter your tags</Form.Label>
-          <Form.Control
+        <BootstrapForm.Group className="mb-3" controlId="postTagsElement">
+          <BootstrapForm.Label>Enter your tags</BootstrapForm.Label>
+          <BootstrapForm.Control
             type="text"
             placeholder="Please enter tags using space here......"
             required
-            ref={postTagsElement}
+            name="tags"
           />
-        </Form.Group>
+        </BootstrapForm.Group>
 
         <Button variant="primary" type="submit">
           Post
         </Button>
-      </Form>
+      </RouterForm>
     </>
   );
 };
 
 export default CreatePost;
+
+export const submitAction = async (data) => {
+  const fromData = await data.request.formData();
+  const postData = Object.fromEntries(fromData);
+  fetch("https://dummyjson.com/posts/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+    });
+  return redirect("/");
+};
