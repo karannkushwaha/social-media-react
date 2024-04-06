@@ -4,9 +4,9 @@ const Msg = ({ onGetPostsClick }) => {
     <>
       <center className="msg">
         <h1>No Post here.... Plzzz create a new post...</h1>
-        <Button variant="success" onClick={onGetPostsClick}>
+        {/* <Button variant="success" onClick={onGetPostsClick}>
           Fetch Post
-        </Button>
+        </Button> */}
       </center>
     </>
   );

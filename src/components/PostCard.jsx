@@ -10,7 +10,7 @@ const PostCard = ({ post }) => {
       <div className="container">
         <Card style={{ width: "30rem" }} className="post-card">
           {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-          <Card.Body key={post.id}>
+          <Card.Body>
             <Card.Title>{post.title}</Card.Title>
             <span
               className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
